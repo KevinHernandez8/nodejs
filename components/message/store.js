@@ -1,14 +1,4 @@
-const db = require('mongoose')
 const Model = require('./model')
-
-// Conexión a la base de datos
-// mongodb://localhost:27017/chat
-db.Promise = global.Promise
-db.connect('mongodb://localhost:27017/chat', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-console.log('[db] Conectada con éxito')
 
 function addMessage(message) {
     const myMessage = new Model(message)
