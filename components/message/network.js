@@ -1,33 +1,13 @@
 const express = require('express')
+
+const multer = require('multer')
+const upload = multer({
+    dest: 'uploads/'
+})
+
 const response = require('../../network/response')
 const router = express.Router()
 const controller = require('./controller')
-
-// Con el router de express se pueden separar los metodos en las rutas
-// router.get('/', function (req, res) {
-//     // Información recibida desde el cliente (request)
-//     console.log(req.body)
-//     console.log(req.query)
-//     console.log(req.headers)
-//     let mensaje = req.body.texto
-
-//     // Respuesta enviada por el servidor (response)
-//     res.header({
-//         'custom-header': 'Mi custom header'
-//     })
-//     res.send('Hola desde GET - Mensaje = ' + mensaje)
-//     // Envíar una respuesta vacía (sin body, pero con status code)
-//     //res.status(201).send()
-//     // Objetos completos
-//     res.status(201).send({
-//         error: '',
-//         body: 'Creado correctamente'
-//     })
-// })
-
-// router.get('/', function (req, res) {
-//     response.success(req, res, 'Response genérico')
-// })
 
 router.get('/', function (req, res) {
     const filterMessages = req.query.chat || null
@@ -40,7 +20,7 @@ router.get('/', function (req, res) {
     })
 })
 
-router.post('/', function (req, res) {
+router.post('/', upload.single('file'), function (req, res) {
     controller.addMessage(req.body.chat, req.body.user, req.body.message)
     .then((fullMessage) => {
         response.success(req, res, fullMessage, 201)
