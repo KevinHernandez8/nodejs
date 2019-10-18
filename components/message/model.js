@@ -17,7 +17,8 @@ const mySchema = new Schema({
     date: {
         type: Date,
         required: true
-    }
+    },
+    file: String
 })
 
 const model = moongose.model('messages', mySchema)

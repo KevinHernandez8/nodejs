@@ -2,7 +2,7 @@ const express = require('express')
 
 const multer = require('multer')
 const upload = multer({
-    dest: 'uploads/'
+    dest: 'public/files/'
 })
 
 const response = require('../../network/response')
@@ -21,7 +21,7 @@ router.get('/', function (req, res) {
 })
 
 router.post('/', upload.single('file'), function (req, res) {
-    controller.addMessage(req.body.chat, req.body.user, req.body.message)
+    controller.addMessage(req.body.chat, req.body.user, req.body.message, req.file)
     .then((fullMessage) => {
         response.success(req, res, fullMessage, 201)
     })
