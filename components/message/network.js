@@ -30,8 +30,8 @@ const controller = require('./controller')
 // })
 
 router.get('/', function (req, res) {
-    const filterUser = req.query.user || null
-    controller.getMessages(filterUser)
+    const filterMessages = req.query.chat || null
+    controller.getMessages(filterMessages)
     .then((messageList) => {
         response.success(req, res, messageList, 200)
     })
@@ -41,9 +41,9 @@ router.get('/', function (req, res) {
 })
 
 router.post('/', function (req, res) {
-    controller.addMessage(req.body.user, req.body.message)
-    .then(() => {
-        response.success(req, res, 'Creado correctamente', 201)
+    controller.addMessage(req.body.chat, req.body.user, req.body.message)
+    .then((fullMessage) => {
+        response.success(req, res, fullMessage, 201)
     })
     .catch(e => {
         response.error(req, res, 'Información inválida', 400, 'Error en el controlador')

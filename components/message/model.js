@@ -2,9 +2,13 @@ const moongose = require('mongoose')
 const Schema = moongose.Schema
 
 const mySchema = new Schema({
+    chat: {
+        type: Schema.ObjectId,
+        ref: 'chats'
+    },
     user: {
-        type: String,
-        required: true
+        type: Schema.ObjectId,
+        ref: 'users'
     },
     message: {
         type: String,
