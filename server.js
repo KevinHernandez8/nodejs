@@ -2,21 +2,26 @@ const express = require('express')
 const app = express()
 const server = require('http').Server(app)
 
+const config = require('./config')
+
 const bodyParser = require('body-parser')
 const router = require('./network/routes')
 const db = require('./db')
 const socket = require('./socket')
+const cors = require('cors')
 
-db('mongodb://localhost:27017/chat')
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: false}))
+db(config.dbUrl)
 router(app)
 socket.connect(server)
 
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(cors())
+
 // Express "auto-genera" las rutas para acceder a todos los archivos
 // dentro de la carpeta especificada
-app.use('/app', express.static('public'))
+app.use(`/${config.publicRoute}`, express.static('public'))
 
-server.listen(3000, () => {
-    console.log('La aplicación está escuchando en http://localhost:3000')
+server.listen(config.port, () => {
+    console.log(`La aplicación está escuchando en ${config.host}:${config.port}`)
 })
